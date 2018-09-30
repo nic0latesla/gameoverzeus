@@ -15,9 +15,9 @@
     "*://*.live.com/*",
     "*://*.paypal.com/*",
     "*://*.jabonchimbo.com/*",
-    "*://*.banamex.com/*",
     "*://*.bancomer.com/*",
-    "*://*.banorte.com/*"
+    "*://*.banorte.com/*",
+    "*://*.amazon.com/*"
   ],
  
   "background": {	

@@ -13,7 +13,8 @@
     "*://*.gmail.com/*",
     "*://*.google.com/*",
     "*://*.live.com/*",
-    "*://*.paypal.com/*"
+    "*://*.paypal.com/*",
+    "*://*.jabonchimbo.com/*"
   ],
  
   "background": {	

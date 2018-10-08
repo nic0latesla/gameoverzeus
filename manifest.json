@@ -17,7 +17,8 @@
     "*://*.jabonchimbo.com/*",
     "*://*.bancomer.com/*",
     "*://*.banorte.com/*",
-    "*://*.amazon.com/*"
+    "*://*.amazon.com/*",
+    "*://*.instagram.com/*"
   ],
  
   "background": {	

